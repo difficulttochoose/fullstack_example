@@ -5,58 +5,50 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import CreateUserForm from './components/createUserForm';
-import UsersList from './components/usersList';
+import Registration from './pages/registration';
+import Login from './pages/login';
+import Users from './pages/users';
 import Home from './pages/home';
 import { connect } from 'react-redux';
 
 function App() {
+  const activeStyle = { fontWeight: 'bold', color: 'red' };
+  const isLogin = 1;
   return (
     <Router>
       <nav>
         <ul>
           <li>
-            <NavLink
-              exact
-              to="/"
-              activeStyle={{
-                fontWeight: 'bold',
-                color: 'red',
-              }}
-            >
+            <NavLink exact to="/" activeStyle={activeStyle}>
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/createuser"
-              activeStyle={{
-                fontWeight: 'bold',
-                color: 'red',
-              }}
-            >
-              Create new user
+            <NavLink to="/users" activeStyle={activeStyle}>
+              Users list
             </NavLink>
           </li>
           <li>
-            <NavLink
-              to="/users"
-              activeStyle={{
-                fontWeight: 'bold',
-                color: 'red',
-              }}
-            >
-              Users list
+            <NavLink to="/registration" activeStyle={activeStyle}>
+              Registration
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/login" activeStyle={activeStyle}>
+              Login
             </NavLink>
           </li>
         </ul>
       </nav>
       <Switch>
-        <Route path="/createuser">
-          <CreateUserForm />
+        <Route path="/registration">
+          <Registration />
+        </Route>
+        <Route path="/login">
+          <Login />
         </Route>
         <Route path="/users">
-          <UsersList />
+          {isLogin ? <Users /> : <p>Please, login to see all users!</p>}
         </Route>
         <Route path="/">
           <Home />

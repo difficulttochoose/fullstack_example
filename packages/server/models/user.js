@@ -1,4 +1,14 @@
 'use strict';
+const { hashSync, compare } = require('bcrypt');
+const saltRounds = 10;
+const { SALT_ROUNDS } = process.env;
+console.log('SALT_ROUNDS', SALT_ROUNDS);
+
+process.env.foo = 'bar';
+console.log(process.env.foo);
+
+console.log(process.env);
+
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -24,7 +34,9 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
+          isEmail: true,
           notEmpty: true,
           notNull: true,
         },
@@ -33,6 +45,9 @@ module.exports = (sequelize, DataTypes) => {
         field: 'password_hash',
         type: DataTypes.TEXT,
         allowNull: false,
+        set(value) {
+          this.setDataValue('password', hashSync(value, saltRounds));
+        },
         validate: {
           notNull: true,
         },

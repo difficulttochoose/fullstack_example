@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/actionCreators';
+import { antdScheme } from '../validators/passwordValidationScheme';
 
 const layout = {
   labelCol: {
@@ -20,7 +21,7 @@ const tailLayout = {
   },
 };
 
-const CreateUserForm = () => {
+const RegistrationForm = () => {
   const dispatch = useDispatch();
   const { createUser } = bindActionCreators(actionCreators, dispatch);
 
@@ -80,6 +81,9 @@ const CreateUserForm = () => {
             required: true,
             message: 'Please input your password!',
           },
+          {
+            validator: antdScheme,
+          },
         ]}
       >
         <Input.Password />
@@ -117,4 +121,4 @@ const CreateUserForm = () => {
     </Form>
   );
 };
-export default CreateUserForm;
+export default RegistrationForm;
